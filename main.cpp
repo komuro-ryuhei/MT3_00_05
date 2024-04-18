@@ -33,6 +33,7 @@ Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 	return result;
 }
 
+// X回転行列
 Matrix4x4 MakeRotateXMatrix(float radian) {
 	Matrix4x4 rotationMatrix = {};
 
@@ -59,6 +60,7 @@ Matrix4x4 MakeRotateXMatrix(float radian) {
 	return rotationMatrix;
 }
 
+// Y回転行列
 Matrix4x4 MakeRotateYMatrix(float radian) {
 	Matrix4x4 rotationMatrix = {};
 
@@ -85,6 +87,7 @@ Matrix4x4 MakeRotateYMatrix(float radian) {
 	return rotationMatrix;
 }
 
+// Z回転行列
 Matrix4x4 MakeRotateZMatrix(float radian) {
 	Matrix4x4 rotationMatrix = {};
 
@@ -181,19 +184,19 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	return result;
 }
 
-// アフィン変換行列を作成する関数
-Matrix4x4 MakeAffineMatrix(Vector3 scale, Vector3 rotation, Vector3 translation) {
+// 3次元アフィン変換行列
+Matrix4x4 MakeAffineMatrix(Vector3 scale, Vector3 rotate, Vector3 translate) {
 	Matrix4x4 affineMatrix;
 
 	// 各変換行列を作成
 	Matrix4x4 scaleMatrix = MakeScaleMatrix(scale);
 
-	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotation.x);
-	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotation.y);
-	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotation.z);
+	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
+	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
+	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
 	Matrix4x4 rotateXYZMatrix = Multiply(rotateXMatrix, Multiply(rotateYMatrix, rotateZMatrix));
 
-	Matrix4x4 translateMatrix = MakeTranslateMatrix(translation);
+	Matrix4x4 translateMatrix = MakeTranslateMatrix(translate);
 
 	// 各変換行列を合成してアフィン変換行列を作成
 	affineMatrix = Multiply(scaleMatrix, Multiply(rotateXYZMatrix, translateMatrix));
